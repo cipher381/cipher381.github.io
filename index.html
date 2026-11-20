@@ -1,0 +1,1223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYPHER | Cybrix Industries</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --blue:#42c8ff;
+  --purple:#9b72ff;
+  --white:#f4f7ff;
+  --muted:#a7b1ca;
+  --border:rgba(115,160,255,.2);
+  --panel:rgba(8,15,35,.95);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html,body{
+  width:100%;
+  height:100%;
+  font-family:Inter,sans-serif;
+  color:var(--white);
+  background:#050817;
+}
+
+body{
+  overflow:hidden;
+  background:
+  linear-gradient(90deg,rgba(3,7,20,.94),rgba(3,7,20,.79)),
+  url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2000&q=90")
+  center/cover fixed no-repeat;
+}
+
+button,a{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+#progress{
+  position:fixed;
+  top:0;
+  left:0;
+  height:3px;
+  width:20%;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  z-index:1000;
+  transition:width .4s;
+}
+
+#particles{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:0;
+  opacity:.4;
+}
+
+.app{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100vh;
+}
+
+header{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 5%;
+  background:rgba(3,7,20,.88);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(18px);
+  position:relative;
+  z-index:20;
+}
+
+.logo{
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.logo span{color:var(--blue)}
+
+.logo small{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:3px;
+  margin-top:3px;
+}
+
+nav{
+  display:flex;
+  gap:8px;
+}
+
+.nav-btn{
+  padding:11px 17px;
+  border:1px solid transparent;
+  border-radius:8px;
+  color:var(--muted);
+  background:transparent;
+  font-size:12px;
+  transition:.25s;
+}
+
+.nav-btn:hover,.nav-btn.active{
+  color:var(--blue);
+  background:rgba(66,200,255,.08);
+  border-color:var(--border);
+}
+
+.menu-toggle{
+  display:none;
+  background:none;
+  color:white;
+  border:0;
+  font-size:25px;
+}
+
+.track{
+  display:flex;
+  width:500vw;
+  height:calc(100vh - 76px);
+  transition:transform .65s cubic-bezier(.77,0,.18,1);
+}
+
+.page{
+  width:100vw;
+  height:100%;
+  flex-shrink:0;
+  overflow-y:auto;
+  padding:55px 5% 100px;
+  scrollbar-width:thin;
+  scrollbar-color:var(--blue) transparent;
+}
+
+.page::-webkit-scrollbar{width:5px}
+.page::-webkit-scrollbar-thumb{
+  background:var(--blue);
+  border-radius:10px;
+}
+
+.eyebrow{
+  color:var(--blue);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:4px;
+  margin-bottom:17px;
+}
+
+.gradient{
+  background:linear-gradient(100deg,#fff,var(--blue),var(--purple));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+h1{
+  font-size:clamp(48px,7vw,100px);
+  line-height:1.08;
+  letter-spacing:-3px;
+  font-weight:900;
+}
+
+.hero{
+  width:100%;
+  max-width:1350px;
+  min-height:75vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.hero p{
+  max-width:850px;
+  margin-top:25px;
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.9;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-top:32px;
+}
+
+.primary-btn,.secondary-btn{
+  padding:15px 24px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:800;
+  transition:.25s;
+}
+
+.primary-btn{
+  background:linear-gradient(100deg,var(--blue),var(--purple));
+  color:#06101e;
+  border:0;
+}
+
+.secondary-btn{
+  color:white;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+}
+
+.primary-btn:hover,.secondary-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(66,200,255,.18);
+}
+
+.hero-stats{
+  display:flex;
+  flex-wrap:wrap;
+  gap:55px;
+  margin-top:55px;
+}
+
+.stat strong{
+  display:block;
+  font-size:30px;
+  color:var(--blue);
+}
+
+.stat span{
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--muted);
+}
+
+/* GENERAL SECTION HEADINGS */
+
+.section-heading{
+  width:100%;
+  margin-bottom:35px;
+}
+
+.section-heading h2{
+  font-size:clamp(35px,4vw,54px);
+  margin-bottom:12px;
+}
+
+.section-heading p{
+  max-width:1000px;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.9;
+}
+
+/* PROJECTS PAGE */
+
+#projectsPage{
+  padding-left:5%;
+  padding-right:5%;
+}
+
+.projects-intro{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:25px;
+  width:100%;
+  margin-bottom:35px;
+}
+
+.projects-intro .section-heading{
+  margin:0;
+}
+
+.project-count{
+  color:var(--blue);
+  font-size:12px;
+  white-space:nowrap;
+  padding:12px 17px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:rgba(66,200,255,.06);
+}
+
+.projects-grid{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:25px;
+  align-items:stretch;
+}
+
+.project{
+  width:100%;
+  min-width:0;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:rgba(7,14,33,.97);
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+
+.project:hover{
+  transform:translateY(-7px);
+  border-color:var(--blue);
+  box-shadow:0 18px 45px rgba(22,139,216,.22);
+}
+
+.project-image-wrap{
+  width:100%;
+  height:220px;
+  flex-shrink:0;
+  overflow:hidden;
+  position:relative;
+}
+
+.project-image{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .55s;
+}
+
+.project:hover .project-image{
+  transform:scale(1.07);
+}
+
+.project-image-wrap:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg,rgba(5,8,22,.5),transparent 65%);
+  pointer-events:none;
+}
+
+.project-content{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  padding:23px;
+}
+
+.project-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.project-status{
+  display:inline-block;
+  font-size:10px;
+  padding:7px 11px;
+  border-radius:30px;
+  color:var(--blue);
+  background:rgba(66,200,255,.1);
+  border:1px solid rgba(66,200,255,.2);
+}
+
+.project-number{
+  font-size:12px;
+  color:var(--blue);
+  font-weight:700;
+}
+
+.project h3{
+  font-size:22px;
+  margin-bottom:12px;
+  overflow-wrap:anywhere;
+}
+
+.project p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.85;
+  flex:1;
+}
+
+.project-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:22px;
+  padding-top:15px;
+  border-top:1px solid var(--border);
+  color:var(--blue);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+/* ABOUT AND SERVICES */
+
+.about-grid,.services-grid{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:25px;
+}
+
+.glass-card{
+  padding:32px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  backdrop-filter:blur(12px);
+}
+
+.glass-card h3{
+  font-size:20px;
+  margin-bottom:15px;
+}
+
+.glass-card p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:2;
+}
+
+.skills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+}
+
+.skill{
+  padding:10px 14px;
+  border:1px solid var(--border);
+  background:rgba(66,200,255,.07);
+  border-radius:7px;
+  color:#dceeff;
+  font-size:11px;
+}
+
+.service-card{transition:.3s}
+
+.service-card:hover{
+  transform:translateY(-5px);
+  border-color:var(--blue);
+}
+
+.service-icon{
+  font-size:30px;
+  margin-bottom:18px;
+}
+
+/* CONTACT */
+
+.contact-layout{
+  width:100%;
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:30px;
+}
+
+.contact-links{
+  display:grid;
+  gap:12px;
+  margin-top:25px;
+}
+
+.contact-link{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:rgba(255,255,255,.035);
+  font-size:12px;
+  transition:.25s;
+}
+
+.contact-link:hover{
+  color:var(--blue);
+  border-color:var(--blue);
+}
+
+.contact-link span:first-child{font-size:20px}
+
+footer{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:15px;
+  margin-top:55px;
+  padding-top:20px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* NAVIGATION CONTROLS */
+
+.controls{
+  position:fixed;
+  bottom:22px;
+  right:5%;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.arrow{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:rgba(5,12,30,.95);
+  color:var(--blue);
+  font-size:18px;
+  transition:.25s;
+}
+
+.arrow:hover{
+  background:var(--blue);
+  color:#06101e;
+}
+
+.dots{
+  display:flex;
+  gap:7px;
+}
+
+.dot{
+  height:7px;
+  width:7px;
+  border-radius:10px;
+  border:0;
+  background:#64718c;
+  transition:.3s;
+}
+
+.dot.active{
+  width:24px;
+  background:var(--blue);
+}
+
+/* PROJECT MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.83);
+  backdrop-filter:blur(10px);
+  z-index:200;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal.show{display:flex}
+
+.modal-box{
+  max-width:650px;
+  width:100%;
+  max-height:85vh;
+  overflow-y:auto;
+  padding:35px;
+  border:1px solid rgba(66,200,255,.35);
+  border-radius:16px;
+  background:#0a1229;
+  animation:pop .25s ease;
+}
+
+.modal-close{
+  float:right;
+  background:none;
+  border:0;
+  color:white;
+  font-size:27px;
+}
+
+.modal-box h2{
+  margin-bottom:15px;
+  font-size:28px;
+  color:var(--blue);
+}
+
+.modal-box p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.9;
+}
+
+.modal-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:20px;
+}
+
+.modal-tags span{
+  padding:7px 10px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  color:var(--blue);
+  font-size:10px;
+}
+
+@keyframes pop{
+  from{opacity:0;transform:scale(.94)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* LARGE SCREENS */
+
+@media(min-width:1500px){
+  .page{padding-left:7%;padding-right:7%}
+  .projects-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .project-image-wrap{height:220px}
+  .project-content{padding:25px}
+}
+
+/* TABLETS */
+
+@media(max-width:1000px){
+  .projects-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .project-image-wrap{height:200px}
+}
+
+/* PHONES */
+
+@media(max-width:650px){
+  header{height:68px;padding:0 5%}
+  .menu-toggle{display:block}
+
+  nav{
+    display:none;
+    position:absolute;
+    top:68px;
+    left:0;
+    right:0;
+    padding:15px;
+    background:#080f25;
+    border-bottom:1px solid var(--border);
+    flex-direction:column;
+  }
+
+  nav.open{display:flex}
+  .nav-btn{text-align:left}
+
+  .track{height:calc(100vh - 68px)}
+  .page{padding:38px 6% 100px}
+
+  .hero{min-height:70vh}
+  .hero p{font-size:14px}
+  h1{letter-spacing:-2px}
+
+  .hero-stats{gap:25px}
+
+  .projects-intro{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .projects-grid{grid-template-columns:1fr}
+  .project-image-wrap{height:220px}
+
+  .about-grid,.services-grid,.contact-layout{
+    grid-template-columns:1fr;
+  }
+
+  .glass-card{padding:23px}
+  .controls{right:5%;bottom:14px}
+}
+</style>
+</head>
+
+<body>
+
+<div id="progress"></div>
+<canvas id="particles"></canvas>
+
+<div class="app">
+
+<header>
+  <a class="logo" href="#" onclick="goTo(0);return false;">
+    CYPHER<span>.</span>
+    <small>BY CYBRIX INDUSTRIES</small>
+  </a>
+
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+  <nav id="navigation">
+    <button class="nav-btn active" onclick="goTo(0)">Home</button>
+    <button class="nav-btn" onclick="goTo(1)">Projects</button>
+    <button class="nav-btn" onclick="goTo(2)">About</button>
+    <button class="nav-btn" onclick="goTo(3)">Services</button>
+    <button class="nav-btn" onclick="goTo(4)">Contact</button>
+  </nav>
+</header>
+
+<main class="track" id="track">
+
+<!-- HOME PAGE -->
+<section class="page">
+  <div class="hero">
+    <div class="eyebrow">INDEPENDENT DEVELOPER · KENYA</div>
+
+    <h1>
+      Building the<br>
+      <span class="gradient">Digital Future.</span>
+    </h1>
+
+    <p>
+      I'm Cypher, a web developer and technology enthusiast building
+      modern digital experiences, creative software concepts and
+      practical solutions through Cybrix Industries.
+    </p>
+
+    <div class="hero-actions">
+      <button class="primary-btn" onclick="goTo(1)">Explore My Work ↗</button>
+      <button class="secondary-btn" onclick="goTo(4)">Contact Me</button>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat"><strong>08</strong><span>PROJECTS & CONCEPTS</span></div>
+      <div class="stat"><strong>01</strong><span>DEVELOPER</span></div>
+      <div class="stat"><strong>KE</strong><span>BASED IN KENYA</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS PAGE -->
+<section class="page" id="projectsPage">
+
+  <div class="projects-intro">
+    <div class="section-heading">
+      <div class="eyebrow">SELECTED WORK · CYBRIX INDUSTRIES</div>
+      <h2>Ideas Into <span class="gradient">Reality.</span></h2>
+      <p>
+        Explore my projects, experiments and product concepts.
+        Each represents an idea I'm developing, learning from or working towards.
+      </p>
+    </div>
+
+    <div class="project-count">08 PROJECTS & CONCEPTS</div>
+  </div>
+
+  <div class="projects-grid" id="projectsGrid"></div>
+
+</section>
+
+<!-- ABOUT PAGE -->
+<section class="page">
+  <div class="section-heading">
+    <div class="eyebrow">BEHIND THE CODE</div>
+    <h2>About <span class="gradient">Cypher.</span></h2>
+    <p>The person and vision behind Cybrix Industries.</p>
+  </div>
+
+  <div class="about-grid">
+
+    <div class="glass-card">
+      <h3>Who I Am</h3>
+      <p>
+        I'm an aspiring software developer interested in web development,
+        artificial intelligence and building useful digital products.
+        I enjoy turning ideas into interactive experiences and continuously
+        improving my technical skills.
+        <br><br>
+        My goal is to grow Cybrix Industries into a technology brand
+        focused on creative and practical digital solutions.
+      </p>
+    </div>
+
+    <div class="glass-card">
+      <h3>My Development Stack</h3>
+      <p>Technologies I currently work with and continue to develop.</p>
+      <div class="skills">
+        <span class="skill">HTML5</span>
+        <span class="skill">CSS3</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">Responsive Design</span>
+        <span class="skill">UI Design</span>
+        <span class="skill">AI Product Concepts</span>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <h3>My Philosophy</h3>
+      <p>
+        Technology should solve real problems. I believe in learning
+        through building, experimenting with new ideas and creating
+        experiences that are both useful and enjoyable.
+      </p>
+    </div>
+
+    <div class="glass-card">
+      <h3>The Vision</h3>
+      <p>
+        Cybrix Industries represents a long-term vision of developing
+        software, digital platforms and technology-driven solutions.
+        Every project is another step in that journey.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES PAGE -->
+<section class="page">
+  <div class="section-heading">
+    <div class="eyebrow">WHAT I OFFER</div>
+    <h2>My <span class="gradient">Services.</span></h2>
+    <p>Digital services for individuals, creators and small businesses.</p>
+  </div>
+
+  <div class="services-grid">
+
+    <div class="glass-card service-card">
+      <div class="service-icon">🌐</div>
+      <h3>Website Development</h3>
+      <p>Modern, responsive websites designed to present your brand and services online.</p>
+    </div>
+
+    <div class="glass-card service-card">
+      <div class="service-icon">🎨</div>
+      <h3>Website Design</h3>
+      <p>Clean layouts, attractive interfaces and thoughtful visual experiences.</p>
+    </div>
+
+    <div class="glass-card service-card">
+      <div class="service-icon">📱</div>
+      <h3>Landing Pages</h3>
+      <p>Focused landing pages for businesses, products, events and campaigns.</p>
+    </div>
+
+    <div class="glass-card service-card">
+      <div class="service-icon">⚡</div>
+      <h3>Website Improvements</h3>
+      <p>Frontend updates, layout improvements and responsive design enhancements.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT PAGE -->
+<section class="page">
+  <div class="section-heading">
+    <div class="eyebrow">LET'S CONNECT</div>
+    <h2>Build Something <span class="gradient">Great.</span></h2>
+    <p>Have a website idea or a project in mind? Let's discuss it.</p>
+  </div>
+
+  <div class="contact-layout">
+
+    <div class="glass-card">
+      <h3>Start a Conversation</h3>
+      <p>
+        I'm interested in website development projects, creative
+        collaborations and opportunities to learn and build.
+      </p>
+
+      <div class="contact-links">
+        <a class="contact-link" href="https://wa.me/254718936044" target="_blank" rel="noopener">
+          <span>💬</span><span>WhatsApp · Let's talk</span>
+        </a>
+
+        <a class="contact-link" href="https://www.instagram.com/cypher.builds.ke/" target="_blank" rel="noopener">
+          <span>📸</span><span>Instagram · @cypher.builds.ke</span>
+        </a>
+
+        <a class="contact-link" href="mailto:YOUR_EMAIL_HERE">
+          <span>✉️</span><span>Email · Contact me</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <h3>CYBRIX INDUSTRIES</h3>
+      <p>
+        <span class="gradient">Ideas into digital experiences.</span>
+        <br><br>
+        A growing technology brand exploring web development,
+        software concepts and digital innovation.
+        <br><br>
+        <strong>Location:</strong> Kenya<br>
+        <strong>Focus:</strong> Web Development & Technology
+      </p>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>© 2026 CYPHER · CYBRIX INDUSTRIES</span>
+    <span>DESIGNED TO BUILD THE FUTURE.</span>
+  </footer>
+</section>
+
+</main>
+
+<div class="controls">
+  <div class="dots">
+    <button class="dot active" onclick="goTo(0)"></button>
+    <button class="dot" onclick="goTo(1)"></button>
+    <button class="dot" onclick="goTo(2)"></button>
+    <button class="dot" onclick="goTo(3)"></button>
+    <button class="dot" onclick="goTo(4)"></button>
+  </div>
+  <button class="arrow" onclick="move(-1)">←</button>
+  <button class="arrow" onclick="move(1)">→</button>
+</div>
+
+</div>
+
+<!-- PROJECT DETAIL MODAL -->
+<div class="modal" id="projectModal" onclick="closeOutside(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="eyebrow">PROJECT DETAILS</div>
+    <h2 id="modalTitle"></h2>
+    <p id="modalDescription"></p>
+    <div class="modal-tags" id="modalTags"></div>
+  </div>
+</div>
+
+<script>
+
+/* PROJECT DATA */
+
+const projects=[
+{
+name:"CASA",
+status:"In Development",
+image:"https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=85",
+description:"CASA stands for Centralized AI Smart Assistant. It is a personal AI assistant project exploring how an intelligent assistant could help users manage tasks and interact with technology.",
+tags:["Artificial Intelligence","Personal Assistant","Technology"]
+},
+{
+name:"KashFlow",
+status:"Product Concept",
+image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=85",
+description:"Your business, in your pocket. KashFlow is designed for Kenyan small businesses. Proposed features include tracking sales, expenses and M-Pesa transactions, viewing monthly income and profit summaries, monitoring budgets and savings goals, managing inventory and customer debts, and exporting CSV reports.",
+tags:["Fintech Concept","Small Businesses","M-Pesa"]
+},
+{
+name:"AgriSmart AI",
+status:"Product Concept",
+image:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=85",
+description:"A mobile-first farming assistant concept for smallholder farmers. The idea is to help farmers make informed decisions, track farm finances, protect crops and access useful farming guidance through visual tools and AI-powered advice.",
+tags:["Agriculture","AI","Mobile First"]
+},
+{
+name:"Reputate.ai",
+status:"Product Concept",
+image:"https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=85",
+description:"A reputation-management platform concept for local service businesses. Planned capabilities include review requests, customer feedback collection, AI-assisted review replies, competitor benchmarking, social content from positive reviews, referral sequences and performance tracking.",
+tags:["SaaS","AI","Business Tools"]
+},
+{
+name:"Streamflix.ai",
+status:"Early Concept",
+image:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=85",
+description:"Streamflix.ai is an early-stage project idea. Its product direction and feature set are still being developed.",
+tags:["Digital Product","Early Concept"]
+},
+{
+name:"CreatorBoost AI",
+status:"Product Concept",
+image:"https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=900&q=85",
+description:"Your AI Content Engine for Video Creators. CreatorBoost AI is designed to help creators plan and produce content faster. Proposed features include video ideas, scripts with hooks and calls to action, titles and SEO descriptions, short-form repurposing, AI thumbnails and visuals, and a content calendar. The proposed plan includes a free tier with 15 AI generations and a $20/month premium tier.",
+tags:["AI","Content Creation","Creators"]
+},
+{
+name:"Mavazi WearHub",
+status:"Website Project",
+image:"https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85",
+description:"A fashion storefront frontend for a women's fashion business. The website focuses on product browsing, categories, search, sorting, favourites, quick views, size and quantity selection, a shopping cart and WhatsApp checkout. It is a frontend project and does not currently provide live inventory or payment processing.",
+tags:["HTML","CSS","JavaScript","E-commerce Frontend"]
+},
+{
+name:"CYMAX",
+status:"Project Concept",
+image:"https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=85",
+description:"CYMAX is a school intelligence system concept exploring how digital tools could support school information, organization and management.",
+tags:["Education Technology","Web Development","School Systems"]
+}
+];
+
+/* BUILD PROJECT CARDS */
+
+const grid=document.getElementById("projectsGrid");
+
+projects.forEach((project,index)=>{
+
+  const card=document.createElement("article");
+  card.className="project";
+  card.tabIndex=0;
+  card.setAttribute("role","button");
+
+  const imageWrap=document.createElement("div");
+  imageWrap.className="project-image-wrap";
+
+  const image=document.createElement("img");
+  image.className="project-image";
+  image.src=project.image;
+  image.alt=project.name+" project image";
+  image.loading="lazy";
+
+  imageWrap.appendChild(image);
+
+  const content=document.createElement("div");
+  content.className="project-content";
+
+  const top=document.createElement("div");
+  top.className="project-top";
+
+  const status=document.createElement("span");
+  status.className="project-status";
+  status.textContent=project.status;
+
+  const number=document.createElement("span");
+  number.className="project-number";
+  number.textContent="0"+(index+1);
+
+  top.append(status,number);
+
+  const title=document.createElement("h3");
+  title.textContent=project.name;
+
+  const description=document.createElement("p");
+  description.textContent=project.description;
+
+  const footer=document.createElement("div");
+  footer.className="project-footer";
+  footer.innerHTML="<span>VIEW PROJECT</span><span>↗</span>";
+
+  content.append(top,title,description,footer);
+  card.append(imageWrap,content);
+
+  card.addEventListener("click",()=>showProject(index));
+
+  card.addEventListener("keydown",event=>{
+    if(event.key==="Enter"||event.key===" "){
+      event.preventDefault();
+      showProject(index);
+    }
+  });
+
+  grid.appendChild(card);
+});
+
+/* PROJECT MODAL */
+
+function showProject(index){
+  const project=projects[index];
+
+  document.getElementById("modalTitle").textContent=project.name;
+  document.getElementById("modalDescription").textContent=project.description;
+
+  const tags=document.getElementById("modalTags");
+  tags.innerHTML="";
+
+  project.tags.forEach(tag=>{
+    const span=document.createElement("span");
+    span.textContent=tag;
+    tags.appendChild(span);
+  });
+
+  document.getElementById("projectModal").classList.add("show");
+}
+
+function closeModal(){
+  document.getElementById("projectModal").classList.remove("show");
+}
+
+function closeOutside(event){
+  if(event.target.id==="projectModal")closeModal();
+}
+
+/* PAGE NAVIGATION */
+
+let currentPage=0;
+const totalPages=5;
+const track=document.getElementById("track");
+
+function goTo(page){
+  currentPage=Math.max(0,Math.min(totalPages-1,page));
+
+  track.style.transform=`translateX(-${currentPage*100}vw)`;
+
+  document.querySelectorAll(".nav-btn").forEach((button,index)=>{
+    button.classList.toggle("active",index===currentPage);
+  });
+
+  document.querySelectorAll(".dot").forEach((dot,index)=>{
+    dot.classList.toggle("active",index===currentPage);
+  });
+
+  document.getElementById("progress").style.width=
+    ((currentPage+1)/totalPages*100)+"%";
+
+  document.getElementById("navigation").classList.remove("open");
+
+  document.querySelectorAll(".page")[currentPage].scrollTop=0;
+}
+
+function move(direction){
+  goTo(currentPage+direction);
+}
+
+function toggleMenu(){
+  document.getElementById("navigation").classList.toggle("open");
+}
+
+document.addEventListener("keydown",event=>{
+
+  if(document.getElementById("projectModal").classList.contains("show")){
+    if(event.key==="Escape")closeModal();
+    return;
+  }
+
+  if(event.key==="ArrowRight")move(1);
+  if(event.key==="ArrowLeft")move(-1);
+});
+
+/* TOUCH NAVIGATION */
+
+let touchStartX=0;
+
+document.addEventListener("touchstart",event=>{
+  touchStartX=event.changedTouches[0].screenX;
+},{passive:true});
+
+document.addEventListener("touchend",event=>{
+  const difference=event.changedTouches[0].screenX-touchStartX;
+
+  if(Math.abs(difference)>100){
+    if(difference<0)move(1);
+    else move(-1);
+  }
+},{passive:true});
+
+/* ANIMATED PARTICLES */
+
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+
+let particles=[];
+let width=0;
+let height=0;
+
+function resizeCanvas(){
+
+  width=canvas.width=window.innerWidth;
+  height=canvas.height=window.innerHeight;
+
+  particles=[];
+
+  const count=Math.min(65,Math.floor(width/18));
+
+  for(let i=0;i<count;i++){
+    particles.push({
+      x:Math.random()*width,
+      y:Math.random()*height,
+      vx:(Math.random()-.5)*.35,
+      vy:(Math.random()-.5)*.35
+    });
+  }
+}
+
+function animateParticles(){
+
+  ctx.clearRect(0,0,width,height);
+
+  particles.forEach((particle,i)=>{
+
+    particle.x+=particle.vx;
+    particle.y+=particle.vy;
+
+    if(particle.x<0||particle.x>width)particle.vx*=-1;
+    if(particle.y<0||particle.y>height)particle.vy*=-1;
+
+    ctx.beginPath();
+    ctx.arc(particle.x,particle.y,1.5,0,Math.PI*2);
+    ctx.fillStyle="#42c8ff";
+    ctx.fill();
+
+    for(let j=i+1;j<particles.length;j++){
+
+      const other=particles[j];
+      const dx=particle.x-other.x;
+      const dy=particle.y-other.y;
+      const distance=Math.sqrt(dx*dx+dy*dy);
+
+      if(distance<125){
+        ctx.beginPath();
+        ctx.moveTo(particle.x,particle.y);
+        ctx.lineTo(other.x,other.y);
+        ctx.strokeStyle=`rgba(66,200,255,${.12*(1-distance/125)})`;
+        ctx.lineWidth=.7;
+        ctx.stroke();
+      }
+    }
+  });
+
+  requestAnimationFrame(animateParticles);
+}
+
+window.addEventListener("resize",resizeCanvas);
+
+resizeCanvas();
+animateParticles();
+
+</script>
+</body>
+</html>
